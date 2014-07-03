@@ -1,0 +1,23 @@
+{
+  "name": "castify",
+  "version": "1.0.0",
+  "description": "Stream from any server to Chromecast",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rishihahs/castify"
+  },
+  "keywords": [
+    "chromecast",
+    "browserify"
+  ],
+  "author": "Rishi Shah <rishihahs@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rishihahs/castify/issues"
+  },
+  "homepage": "https://github.com/rishihahs/castify"
+}
