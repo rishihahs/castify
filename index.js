@@ -1,12 +1,36 @@
 var castify;
 
-castify = function () {
+castify = (function () {
     'use strict';
 
     // private vars
     var chrome = require('./lib/cast_sender'),
         that = {},
-        retries = 0; // Chromecast connection retries
+        retries = 0, // Chromecast connection retries
+
+        // Chromecast Listeners
+        sessionListener = function () {
+            console.log('Session Listener');
+        },
+
+        receiverListener = function (e) {
+            if (e === chrome.cast.ReceiverAvailability.AVAILABLE) {
+                console.log('Receiver Listener: Available');
+            } else {
+                console.log('Receiver Listener: Not Available');
+            }
+        },
+
+        onInitSuccess = function () {
+            console.log('Chromecast successfully initiated');
+        },
+
+        onInitError = function () {
+            throw {
+                name: 'InitError',
+                message: 'Chromecast could not initiate'
+            };
+        };
 
     that.initialize = function () {
         var appID, session, config;
@@ -32,9 +56,13 @@ castify = function () {
         appID = chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID;
 
         session = new chrome.cast.SessionRequest(appID);
-        config = new chrome.cast.ApiConfig(session);
+        config = new chrome.cast.ApiConfig(session, sessionListener, receiverListener);
 
-        chrome.cast.initialize(config);
+        chrome.cast.initialize(config, onInitSuccess, onInitError);
 
     };
-};
+
+    return that;
+}());
+
+module.exports = castify;
