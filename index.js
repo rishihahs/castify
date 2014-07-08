@@ -83,7 +83,7 @@ castify = (function () {
 
     };
 
-    that.playMedia = function (currentMediaURL) {
+    that.playMedia = function (currentMediaURL, mimeType) {
         var mediaInfo, request, onMediaDiscovered, onMediaError;
 
         if (!session) {
@@ -98,14 +98,15 @@ castify = (function () {
             currentMedia = media;
         };
 
-        onMediaError = function () {
+        onMediaError = function (e) {
+            console.log(e);
             throw {
                 name: 'MediaError',
                 message: 'Error starting media'
             };
         };
 
-        mediaInfo = new chrome.cast.media.MediaInfo(currentMediaURL);
+        mediaInfo = new chrome.cast.media.MediaInfo(currentMediaURL, mimeType);
         request = new chrome.cast.media.LoadRequest(mediaInfo);
         session.loadMedia(request,
             onMediaDiscovered.bind(this, 'loadMedia'),
